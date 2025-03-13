@@ -1,6 +1,6 @@
 const API_KEY = '75f58ed3700a7b9d37172c12ac66beed';
 const BASE_URL = 'https://api.themoviedb.org/3';
-const IMAGE_URL = 'https://image.tmdb.org/t/p/w500'; // Corrected base URL for images
+const IMAGE_URL = 'https://image.tmdb.org/t/p/w500';
 const PLACEHOLDER_IMAGE = 'https://via.placeholder.com/500x750?text=No+Image'; // Placeholder for missing images
 const movieContainer = document.getElementById('movie-container');
 const searchInput = document.getElementById('search');
