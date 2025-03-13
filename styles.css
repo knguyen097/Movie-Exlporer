@@ -15,8 +15,8 @@ header {
     justify-content: center;
     /*align-items: center;*/
     
-    background-color: #607d8b; /* Blue-gray background */
-    padding: 2% 20%; /* Using percentages for better scaling */
+    background-color: #607d8b; 
+    padding: 2% 20%; 
 }
 
 
@@ -26,23 +26,23 @@ header {
 
 h1 {
     margin: 5%;
-    font-size: 3.5vw; /* Responsive font size */
+    font-size: 3.5vw; 
 }
 
 #controls {
     display: flex;
     justify-content: center;
-    gap: 2%; /* Spacing between search bar and sort select */
+    gap: 2%; 
 }
 
 input, select {
     padding: 1.5%;
-    font-size: 1.5vw; /* Scalable font size */
+    font-size: 1.5vw; 
 }
 
 #movie-container {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(20%, 1fr)); /* Using percentage for column size */
+    grid-template-columns: repeat(auto-fill, minmax(20%, 1fr)); 
     gap: 2%;
     padding: 5%;
 }
