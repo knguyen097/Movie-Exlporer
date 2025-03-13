@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie Explorer</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header class="banner">
+        <div id="header-content">
+            <h1>Movie Explorer</h1>
+        </div>
+    </header>   
+    <header class="search">   
+        <div id="controls">
+            <input type="text" id="search" placeholder="Search for movies...">
+            <select id="sort">
+                <option value="release_date">Sort by Release Date</option>
+                <option value="vote_average">Sort by Rating</option>
+            </select>
+        </div>
+    </header>   
+    
+    <main id="movie-container"></main>
+    
+    <footer>
+        <button id="prev">Previous</button>
+        <span id="page-number">Page 1</span>
+        <button id="next">Next</button>
+    </footer>
+    
+    <script src="script.js"></script>
+</body>
+</html>
