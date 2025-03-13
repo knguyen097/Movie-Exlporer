@@ -1,0 +1,80 @@
+/* styles.css */
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #121212;
+    color: #ffffff;
+    text-align: center;
+}
+
+header {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    /*align-items: center;*/
+    
+    background-color: #607d8b; /* Blue-gray background */
+    padding: 2% 20%; /* Using percentages for better scaling */
+}
+
+
+#header-content {
+    margin-bottom: 2%;
+}
+
+h1 {
+    margin: 5%;
+    font-size: 3.5vw; /* Responsive font size */
+}
+
+#controls {
+    display: flex;
+    justify-content: center;
+    gap: 2%; /* Spacing between search bar and sort select */
+}
+
+input, select {
+    padding: 1.5%;
+    font-size: 1.5vw; /* Scalable font size */
+}
+
+#movie-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(20%, 1fr)); /* Using percentage for column size */
+    gap: 2%;
+    padding: 5%;
+}
+
+.movie {
+    background-color: #282828;
+    border-radius: 10px;
+    overflow: hidden;
+    text-align: center;
+    padding: 2%;
+}
+
+.movie img {
+    width: 100%;
+    border-radius: 10px 10px 0 0;
+}
+
+footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 3% 0;
+    background-color: #1c1c1c;
+}
+
+button {
+    padding: 1.5% 3%;
+    margin: 0 2%;
+    font-size: 1.5vw;
+    cursor: pointer;
+}
+
+#page-number {
+    font-size: 1.5vw;
+}
