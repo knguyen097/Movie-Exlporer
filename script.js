@@ -1,21 +1,25 @@
 const API_KEY = '75f58ed3700a7b9d37172c12ac66beed';
 const BASE_URL = 'https://api.themoviedb.org/3';
+
 let currentPage = 1;
 let totalPages = 1;
-const maxDate = '2025-03-01';
+let currentQuery = '';
+let currentSortBy = 'popularity.desc';
 
 // Fetch movies from API
-async function fetchMovies(page = 1, query = '', sortBy = 'popularity.desc') {
-    let url = `${BASE_URL}/discover/movie?api_key=${API_KEY}&page=${page}&sort_by=${sortBy}`;
+async function fetchMovies(page = 1) {
+    let url = `${BASE_URL}/discover/movie?api_key=${API_KEY}&page=${page}&sort_by=${currentSortBy}`;
 
-    if (query) {
-        url = `${BASE_URL}/search/movie?api_key=${API_KEY}&query=${query}&page=${page}`;
+    if (currentQuery) {
+        url = `${BASE_URL}/search/movie?api_key=${API_KEY}&query=${currentQuery}&page=${page}`;
     }
 
     try {
         const res = await fetch(url);
         const data = await res.json();
-        totalPages = data.total_pages;
+        if (page === 1) { 
+            totalPages = data.total_pages;
+        }
 
         displayMovies(data.results.slice(0, 20)); 
         updatePaginationText();
@@ -52,10 +56,10 @@ function updatePaginationText() {
 
 // Handle search input
 function handleSearch() {
-    const query = document.getElementById('search').value;
-    const sortBy = document.getElementById('sort').value;
+    currentQuery = document.getElementById('search').value;
+    currentSortBy = document.getElementById('sort').value;
     currentPage = 1; // Reset to first page
-    fetchMovies(currentPage, query, sortBy);
+    fetchMovies(currentPage);
 }
 
 // Go to previous page
@@ -76,8 +80,9 @@ function nextPage() {
 
 // Event listeners
 document.getElementById('search').addEventListener('input', handleSearch);
+document.getElementById('sort').addEventListener('change', handleSearch);
 document.getElementById('prevPage').addEventListener('click', prevPage);
 document.getElementById('nextPage').addEventListener('click', nextPage);
 
-// Initial fetch
+// Initial Data Grab from TMDB
 fetchMovies();
