@@ -1,80 +1,94 @@
-/* styles.css */
-
 body {
+    background-color: lightgray;
+    color: black;
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #121212;
-    color: #ffffff;
+}
+
+.header {
+    background-color: #2d3748;
+    color: white;
     text-align: center;
+    padding: 3%;
+    font-size: 50px;
+    font-weight: bold;
 }
 
-header {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    /*align-items: center;*/
-    
-    background-color: #607d8b; 
-    padding: 2% 20%; 
-}
-
-
-#header-content {
-    margin-bottom: 2%;
-}
-
-h1 {
-    margin: 5%;
-    font-size: 3.5vw; 
-}
-
-#controls {
-    display: flex;
-    justify-content: center;
-    gap: 2%; 
-}
-
-input, select {
+.search-bar {
+    background-color: #4a5568;
     padding: 1.5%;
-    font-size: 1.5vw; 
+    display: flex;
+    justify-content: center;
+    gap: 1.5%;
+    width: 100%;
 }
 
-#movie-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(20%, 1fr)); 
-    gap: 2%;
-    padding: 5%;
+.search-bar input {
+    padding: 0.5%;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    background-color: white;
+    color: black;
+    font-size: 20px;
 }
 
-.movie {
-    background-color: #282828;
-    border-radius: 10px;
-    overflow: hidden;
-    text-align: center;
+.search-bar select {
+    width: 17%;
+    font-size: 20px;
+    text-align: inherit;
+}
+
+.container {
+    max-width: 100%;
+    margin: auto;
     padding: 2%;
 }
 
-.movie img {
+.movies-grid {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr)); /* Ensures 5 equal columns */
+    gap: 1%;
     width: 100%;
-    border-radius: 10px 10px 0 0;
 }
 
-footer {
+.movie-card {
+    background-color: white;
+    padding: 6%;
+    border-radius: 10px;
+    box-shadow: 0 3px 5px gray;
+    text-align: center;
+    width: 100%;
+
+}
+
+.movie-card img {
+    width: 100%;
+    border-radius: 10px;
+    vertical-align: middle;
+    padding: 5%;
+
+}
+
+.pagination {
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 3% 0;
-    background-color: #1c1c1c;
+    margin-top: 5%;
+    gap: 2%;
 }
 
-button {
-    padding: 1.5% 3%;
-    margin: 0 2%;
-    font-size: 1.5vw;
+.pagination button {
+    background-color: #63b3ed;
+    color: white;
+    border: none;
+    padding: 1% 2%;
+    border-radius: 10px;
     cursor: pointer;
+    font-size: 25px;
+    text-align: center;
 }
 
-#page-number {
-    font-size: 1.5vw;
+.pagination button:hover {
+    background-color: #4299e1;
 }
