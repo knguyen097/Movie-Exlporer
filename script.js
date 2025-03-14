@@ -17,7 +17,7 @@ async function fetchMovies(page = 1, query = '', sortBy = 'popularity.desc') {
         const data = await res.json();
         totalPages = data.total_pages;
 
-        displayMovies(data.results.slice(0, 20)); // Display first 20 movies
+        displayMovies(data.results.slice(0, 20)); 
         updatePaginationText();
     } catch (error) {
         console.error("Error fetching movies:", error);
