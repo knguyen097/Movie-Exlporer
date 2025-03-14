@@ -10,14 +10,14 @@ body {
     background-color: #2d3748;
     color: white;
     text-align: center;
-    padding: 3%;
+    padding: 2.25%;
     font-size: 50px;
     font-weight: bold;
 }
 
 .search-bar {
     background-color: #4a5568;
-    padding: 1.5%;
+    padding: 1.25%;
     display: flex;
     justify-content: center;
     gap: 1.5%;
@@ -34,7 +34,7 @@ body {
 }
 
 .search-bar select {
-    width: 17%;
+    width: 8.5%;
     font-size: 20px;
     text-align: inherit;
 }
@@ -47,9 +47,10 @@ body {
 
 .movies-grid {
     display: grid;
-    grid-template-columns: repeat(5, minmax(0, 1fr)); 
-    gap: 1%;
-    width: 100%;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    padding: 20px;
+    justify-content: center;
 }
 
 .movie-card {
@@ -59,7 +60,6 @@ body {
     box-shadow: 0 3px 5px gray;
     text-align: center;
     width: 100%;
-
 }
 
 .movie-card img {
@@ -67,7 +67,6 @@ body {
     border-radius: 10px;
     vertical-align: middle;
     padding: 5%;
-
 }
 
 .pagination {
@@ -82,10 +81,10 @@ body {
     background-color: #63b3ed;
     color: white;
     border: none;
-    padding: 1% 2%;
+    padding: 0.5% 1.5%;
     border-radius: 10px;
     cursor: pointer;
-    font-size: 25px;
+    font-size: 20px;
     text-align: center;
 }
 
