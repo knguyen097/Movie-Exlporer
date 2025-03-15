@@ -3,66 +3,73 @@ const BASE_URL = 'https://api.themoviedb.org/3';
 
 let currentPage = 1;
 let totalPages = 1;
-let currentQuery = '';
-let currentSortBy = 'popularity.desc';
+let searchQuery = '';
+let sortBy = 'popularity.desc';
 
-// Fetch movies from API
+document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('search').addEventListener('input', handleSearch);
+    document.getElementById('sort').addEventListener('change', handleSearch);
+    document.getElementById('prevPage').addEventListener('click', prevPage);
+    document.getElementById('nextPage').addEventListener('click', nextPage);
+    fetchMovies();
+});
+
 async function fetchMovies(page = 1) {
-    let url = `${BASE_URL}/discover/movie?api_key=${API_KEY}&page=${page}&sort_by=${currentSortBy}`;
-
-    if (currentQuery) {
-        url = `${BASE_URL}/search/movie?api_key=${API_KEY}&query=${currentQuery}&page=${page}`;
-    }
+    const endpoint = searchQuery 
+        ? `${BASE_URL}/search/movie?api_key=${API_KEY}&query=${encodeURIComponent(searchQuery)}&page=${page}`
+        : `${BASE_URL}/discover/movie?api_key=${API_KEY}&sort_by=${sortBy}&page=${page}`;
 
     try {
-        const res = await fetch(url);
-        const data = await res.json();
-        if (page === 1) { 
-            totalPages = data.total_pages;
-        }
-
-        displayMovies(data.results.slice(0, 20)); 
+        const response = await fetch(endpoint);
+        if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+        
+        const data = await response.json();
+        totalPages = data.total_pages || 1;
+        
+        renderMovies(data.results);
         updatePaginationText();
     } catch (error) {
-        console.error("Error fetching movies:", error);
+        console.error("Failed to fetch movies:", error);
+        displayError("Could not fetch movie data. Please try again later.");
     }
 }
 
-// Display movies on the page
-function displayMovies(movies) {
+function renderMovies(movies) {
     const moviesContainer = document.getElementById('movies');
     moviesContainer.innerHTML = '';
-
-    movies.forEach(movie => {
-        const movieElement = document.createElement('div');
-        movieElement.classList.add('movie-card');
-        movieElement.innerHTML = `
-            <img src="${movie.poster_path 
-                ? `https://image.tmdb.org/t/p/w500${movie.poster_path}` 
-                : 'https://via.placeholder.com/200x300?text=No+Image'}" 
-                alt="${movie.title}">
-            <h2>${movie.title}</h2>
-            <p>Rating: ${movie.vote_average}</p>
-            <p>Release Date: ${movie.release_date ? movie.release_date : 'Unknown'}</p>
+    
+    if (!movies.length) {
+        moviesContainer.innerHTML = '<p>No movies found.</p>';
+        return;
+    }
+    
+    movies.forEach(({ title, poster_path, release_date, vote_average }) => {
+        const movieCard = document.createElement('div');
+        movieCard.classList.add('movie-card');
+        
+        movieCard.innerHTML = `
+            <img src="${poster_path ? `https://image.tmdb.org/t/p/w500${poster_path}` : 
+                'https://via.placeholder.com/200x300?text=No+Image'}" alt="${title}">
+            <h2>${title}</h2>
+            <p>Release Date: ${release_date || 'Unknown'}</p>
+            <p>Rating: ${vote_average ?? 'N/A'}</p>
         `;
-        moviesContainer.appendChild(movieElement);
+        
+        moviesContainer.appendChild(movieCard);
     });
 }
 
-// Update pagination text
 function updatePaginationText() {
     document.getElementById('totalPages').textContent = `Page ${currentPage} of ${totalPages}`;
 }
 
-// Handle search input
 function handleSearch() {
-    currentQuery = document.getElementById('search').value;
-    currentSortBy = document.getElementById('sort').value;
-    currentPage = 1; // Reset to first page
-    fetchMovies(currentPage);
+    searchQuery = document.getElementById('search').value.trim();
+    sortBy = document.getElementById('sort').value;
+    currentPage = 1;
+    fetchMovies();
 }
 
-// Go to previous page
 function prevPage() {
     if (currentPage > 1) {
         currentPage--;
@@ -70,7 +77,6 @@ function prevPage() {
     }
 }
 
-// Go to next page
 function nextPage() {
     if (currentPage < totalPages) {
         currentPage++;
@@ -78,11 +84,7 @@ function nextPage() {
     }
 }
 
-// Event listeners
-document.getElementById('search').addEventListener('input', handleSearch);
-document.getElementById('sort').addEventListener('change', handleSearch);
-document.getElementById('prevPage').addEventListener('click', prevPage);
-document.getElementById('nextPage').addEventListener('click', nextPage);
-
-// Initial Data Grab from TMDB
-fetchMovies();
+function displayError(message) {
+    const moviesContainer = document.getElementById('movies');
+    moviesContainer.innerHTML = `<p class='error-message'>${message}</p>`;
+}
