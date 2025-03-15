@@ -51,7 +51,7 @@ body {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: 20px;
-    padding: ;
+    padding: 2%;
     justify-content: center;
 }
 
@@ -103,5 +103,5 @@ body {
 }
 
 .pagination button:hover {
-    background-color: #4299e1;
+    background-color: #2271ac;
 }
