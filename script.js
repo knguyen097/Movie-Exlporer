@@ -8,28 +8,26 @@ let searchQuery = '';
 let sortBy = 'popularity.desc';
 
 document.addEventListener('DOMContentLoaded', () => {
-    // Attachment of event listeners
+    // Add event listeners
     document.getElementById('search').addEventListener('input', handleSearch);
     document.getElementById('sort').addEventListener('change', handleSearch);
     document.getElementById('prevPage').addEventListener('click', prevPage);
     document.getElementById('nextPage').addEventListener('click', nextPage);
     
-    // Loads movies initially
     fetchMovies(true);
 });
 
 async function fetchMovies(isNewQuery = false, page = currentPage) {
-    let endpoint;
+    let finish;
     
-    // Determine if the user is searching or just browsing
     if (searchQuery) {
-        endpoint = `${BASE_URL}/search/movie?api_key=${API_KEY}&query=${encodeURIComponent(searchQuery)}&page=${page}`;
+        finish = `${BASE_URL}/search/movie?api_key=${API_KEY}&query=${encodeURIComponent(searchQuery)}&page=${page}`;
     } else {
-        endpoint = `${BASE_URL}/discover/movie?api_key=${API_KEY}&sort_by=${sortBy}&page=${page}`;
+        finish = `${BASE_URL}/discover/movie?api_key=${API_KEY}&sort_by=${sortBy}&page=${page}`;
     }
 
     try {
-        const response = await fetch(endpoint);
+        const response = await fetch(finish);
         
         if (!response.ok) {
             throw new Error(`HTTP error! Status: ${response.status}`);
@@ -37,12 +35,12 @@ async function fetchMovies(isNewQuery = false, page = currentPage) {
         
         const data = await response.json();
 
-        // This will make sure the total pages stays consistent no matter which sorting option
+        // This will make sure the total pages stays consistent
         if (totalPages === 1 || currentPage === 1) {
-            totalPages = totalPages > 1 ? totalPages : (data.total_pages || 1);
+            totalPages = data.total_pages || 1;
         }
 
-        renderMovies(data.results);
+        displayMovies(data.results);
         updatePaginationText();
     } catch (error) {
         console.error("Failed to fetch movies:", error);
@@ -50,9 +48,9 @@ async function fetchMovies(isNewQuery = false, page = currentPage) {
     }
 }
 
-function renderMovies(movies) {
+function displayMovies(movies) {
     const moviesContainer = document.getElementById('movies');
-    moviesContainer.innerHTML = ''; // This clears previous results
+    moviesContainer.innerHTML = '';
 
     if (movies.length === 0) {
         moviesContainer.innerHTML = '<p>No movies found.</p>';
@@ -66,9 +64,9 @@ function renderMovies(movies) {
         // Displays Movie Poster Images
         let posterUrl = `https://image.tmdb.org/t/p/w500${movie.poster_path}`;
 
-        // Ensure release date and rating are displayed correctly
+        // Ensures release date and rating are displayed correctly
         let releaseDate = movie.release_date ? movie.release_date : 'Unknown';
-        let rating = movie.vote_average !== null ? movie.vote_average : 'N/A';
+        let rating = movie.vote_average !== 0 ? movie.vote_average : 'N/A';
 
         movieCard.innerHTML = `
             <img src="${posterUrl}" alt="${movie.title}">
@@ -89,22 +87,22 @@ function handleSearch() {
     // Handles Search and Sort Options
     searchQuery = document.getElementById('search').value.trim();
     sortBy = document.getElementById('sort').value;
-    currentPage = 1; // Resets the webpage to first page when searching
+    currentPage = 1; 
 
-    fetchMovies(true, currentPage); // Mark as a new search query
+    fetchMovies(true, currentPage); 
 }
 
 function prevPage() {
     if (currentPage > 1) {
         currentPage--;
-        fetchMovies(false, currentPage); // This is in place so that when a user goes to the previous page, it does not change the total number of pages
+        fetchMovies(false, currentPage); // Ensures the total number of pages doesn't change when moving to previous page
     }
 }
 
 function nextPage() {
     if (currentPage < totalPages) {
         currentPage++;
-        fetchMovies(false, currentPage); // This is in place so that when a user goes to the next page, it does not change the total number of pages
+        fetchMovies(false, currentPage); // Ensures the total number of pages doesn't change when moving to next page
     }
 }
 
